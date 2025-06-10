@@ -9,14 +9,14 @@ use App\Application\Models\Registration;
 
 class RegisterController extends Controller
 {
-    //private static $registration;
-    //private static $session;
-    //protected static $validation;
-    public function __construct(protected Registration $registration, protected Validation $validation, protected Session $session)
-    {   //
-        //self::$registration = $registration;
-        //self::$validation = $validation;
-        //self::$session = $session;
+    private static $registration;
+    private static $session;
+    protected static $validation;
+    public function __construct( Registration $registration,  Validation $validation,  Session $session)
+    {   
+        self::$registration = $registration;
+        self::$validation = $validation;
+        self::$session = $session;
 
     }
     public static function show()
