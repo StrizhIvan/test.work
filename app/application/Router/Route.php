@@ -37,7 +37,7 @@ class Route
         foreach (self::$routes as $route) {
             if ($requestMethod == $route['method'] && $requestURI == $route['uri']) {
                 if ($route['middleware']) {
-                    self::$middleware->authMiddleware() ? call_user_func($route['callback']) : var_dump("error"); 
+                    self::$middleware->authMiddleware() ? call_user_func($route['callback']) : header('Location: /'); 
                     return;
                 }
                 call_user_func($route['callback']);
