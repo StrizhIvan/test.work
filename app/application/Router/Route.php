@@ -2,25 +2,32 @@
 
 namespace App\Application\Router;
 
+use App\Application\Middleware;
+
 class Route
 {
     private static array $routes;
+    private static $middleware;
 
-    protected static function add(string $uri, callable|array $callback, string $method, bool $needcsrfToken)
+    public function __construct(Middleware $middleware) {
+        self::$middleware = $middleware;
+    }
+
+    protected static function add(string $uri, callable|array $callback, string $method, bool $middleware)
     {
         self::$routes[] = [
             'uri' => $uri,
             'callback' => $callback,
             'method' => strtoupper($method),
-            'needcsrfToken'=> $needcsrfToken
+            'middleware' => $middleware,
         ];
     }
 
-    public static function get(string $uri, callable|array $callback,  bool $needcsrfToken = true, string $method = 'get') {
-        self::add($uri, $callback, $method, $needcsrfToken);
+    public static function get(string $uri, callable|array $callback, bool $middleware = false, string $method = 'get') {
+        self::add($uri, $callback, $method, $middleware);
     }
-    public static function post(string $uri, callable|array $callback,  bool $needcsrfToken = true, string $method = 'post') {
-        self::add($uri, $callback, $method, $needcsrfToken);
+    public static function post(string $uri, callable|array $callback, bool $middleware = false, string $method = 'post') {
+        self::add($uri, $callback, $method, $middleware);
     }
 
     public static function dispatch()
@@ -29,6 +36,10 @@ class Route
         $requestURI = $_SERVER['REQUEST_URI'];
         foreach (self::$routes as $route) {
             if ($requestMethod == $route['method'] && $requestURI == $route['uri']) {
+                if ($route['middleware']) {
+                    self::$middleware->authMiddleware() ? call_user_func($route['callback']) : var_dump("error"); 
+                    return;
+                }
                 call_user_func($route['callback']);
                 return;
             }   

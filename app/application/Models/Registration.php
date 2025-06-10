@@ -9,11 +9,6 @@ class Registration extends Model{
     public array $fillable;
 
     public function addUser () {
-        //$this->fillable = $_POST;
-        //$name = $_POST['name'];
-        //$email = $_POST['email'];
-        //$tel = $_POST['tel'];
-        //$password = $_POST['password'];
         if($this->searchUser($this->fillable['email'], 'email') || $this->searchUser($this->fillable['tel'], 'tel')){
             return false;
         } else {

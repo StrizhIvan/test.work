@@ -2,6 +2,8 @@
 if (isset($_SESSION['flash']['Errors validation'])) {
   $errors = $_SESSION['flash']['Errors validation'];
 }
+
+
 ?>
 
 <h1>Register page</h1>

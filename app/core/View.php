@@ -4,7 +4,7 @@ namespace App\Core;
 
 class View
 {
-    public $content;
+    
     public $data;
     //public string $content;
     public function render($page_name = '', $data = [], $layout_name = 'default')

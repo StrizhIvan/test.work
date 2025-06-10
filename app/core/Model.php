@@ -36,13 +36,14 @@ abstract class Model
     {
         $stmt = $this->connection->prepare("SELECT * FROM users");
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     public function findOne(string $table, string $value, string $column)
     {
-        $stmt = $this->connection->prepare("SELECT * from $table WHERE $column = ?");
-        $stmt->execute([$value]);
+        $stmt = $this->connection->prepare("SELECT * FROM $table WHERE $column = :value");
+        $stmt->execute(['value' => $value]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 

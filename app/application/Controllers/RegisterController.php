@@ -11,7 +11,7 @@ class RegisterController extends Controller
 {
     private static $registration;
     private static $session;
-    protected static $validation;
+    private static $validation;
     public function __construct( Registration $registration,  Validation $validation,  Session $session)
     {   
         self::$registration = $registration;
@@ -21,10 +21,12 @@ class RegisterController extends Controller
     }
     public static function show()
     {
-        return [
-            self::view('register'),
-            self::$session->remove('flash')
-        ];
+        if (self::$session->has("user")) {
+            self::redirect('profil');
+            return;
+        }
+        
+        return [self::view('register'), self::$session->remove('flash')];
     }
 
     public static function register()
@@ -37,17 +39,14 @@ class RegisterController extends Controller
             'passwordConfirm' => $_POST['password-confirm'],
         ];
 
-        //var_dump(self::searchValidationErrors(self::$registration->fillable));
         $errors = self::searchValidationErrors(self::$registration->fillable);
         if (!empty($errors)) {
-            //var_dump("Errors");
             self::$session->setFlash('Errors validation', $errors);
             return self::redirect('/');
         }
         $result = self::$registration->addUser();
         if ($result) {
             self::$session->remove('Errors validation');
-            self::$session->set('User', []);
             return self::view('success');
         } else {
             return self::view('baduser');

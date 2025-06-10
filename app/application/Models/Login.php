@@ -7,25 +7,28 @@ use App\Core\Model;
 class Login extends Model
 {
     protected $table = "users";
-    protected $fillable = [];
+    public array $fillable;
 
-    public function loginUser()
+    public function loginUser(): array|bool
     {
-        $login = $_POST['login'];
-        $password = $_POST['password'];
 
-        if ($this->searchUser($login, 'email') || $this->searchUser($login, 'tel')) {
-            $user = $this->searchUser($login, 'email') ? $this->searchUser($login, 'email') : $this->searchUser($login, 'tel');
-            if (password_verify($password, $user['password'])) {
-                return true;
-            } else {
-                return false;
-            }
+        $user = null;
+        if ($this->searchUser($this->fillable['login'], 'email')) {
+            $user = $this->searchUser($this->fillable['login'], 'email');
+        } elseif ($this->searchUser($this->fillable['login'], 'tel') ) {
+            $user = $this->searchUser($this->fillable['login'], 'tel');
         }
+        if ($user && password_verify($this->fillable['password'], $user['password'])) {
+            return $user;
+        }
+
+        return false;
     }
-    private function searchUser(string $value, string $column)
+    private function searchUser(string $value, string $column) :array|bool
     {
         return $this->findOne($this->table, $value, $column);
     }
+
+    
 
 }
