@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Application\Controllers\ProfilController;
 use App\Application\Middleware;
+use App\Application\Models\Profil;
 use App\Core\View;
 use App\Core\Session;
 use App\Application\Captcha;
@@ -19,6 +21,8 @@ class Application
     protected $registerController;
     protected $auth;
     protected $autherisationController;
+    protected $profil;
+    protected $profilController;
     protected $router;
     protected $middleware;
     protected $config;
@@ -33,14 +37,18 @@ class Application
         $this->captcha = new Captcha();
         $this->middleware = new Middleware($this->session);
         $this->router = new Route($this->middleware);
+
         $this->registration = new Registration($config);
         $this->registerController = new RegisterController($this->registration, $this->validation, $this->session);
 
         $this->auth = new Login($config);
         $this->autherisationController = new AutherisationController($this->auth, $this->session, $this->captcha, $this->validation);
+
+        $this->profil = new Profil($config);
+        $this->profilController = new ProfilController($this->profil, $this->validation, $this->session);
     }
     public function run()
-    {   
+    {
         Route::dispatch();
     }
 }

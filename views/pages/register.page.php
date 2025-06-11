@@ -1,20 +1,22 @@
 <?php
-if (isset($_SESSION['flash']['Errors validation'])) {
-  $errors = $_SESSION['flash']['Errors validation'];
+if (isset($_SESSION['flash'])) {
+  $errors = $_SESSION['flash'];
 }
-
-
 ?>
 
 <h1>Register page</h1>
-
+<?php 
+if (isset($errors['Register error'])) {
+  echo $errors['Register error'];
+}
+?>
 <form action="" method="post">
   <div class="mb-3">
     <label for="name" class="form-label">Name</label>
     <input type="text" class="form-control" id="name" name="name">
     <?php
-    if (isset($errors['name'])) {
-      echo $errors['name'];
+    if (isset($errors['Errors validation']['name'])) {
+      echo $errors['Errors validation']['name'];
     }
     ?>
   </div>
@@ -23,8 +25,8 @@ if (isset($_SESSION['flash']['Errors validation'])) {
     <input type="email" class="form-control" id="email" name="email">
 
     <?php
-    if (isset($errors['email'])) {
-      echo $errors['email'];
+    if (isset($errors['Errors validation']['email'])) {
+      echo $errors['Errors validation']['email'];
     }
     ?>
 
@@ -35,8 +37,8 @@ if (isset($_SESSION['flash']['Errors validation'])) {
     <input type="text" class="form-control" id="tel" name="tel">
 
     <?php
-    if (isset($errors['tel'])) {
-      echo $errors['tel'];
+    if (isset($errors['Errors validation']['tel'])) {
+      echo $errors['Errors validation']['tel'];
     }
     ?>
 
@@ -48,8 +50,8 @@ if (isset($_SESSION['flash']['Errors validation'])) {
     <input type="password" class="form-control" id="password" name="password">
 
     <?php
-    if (isset($errors['password'])) {
-      echo $errors['password'];
+    if (isset($errors['Errors validation']['password'])) {
+      echo $errors['Errors validation']['password'];
     }
     ?>
 
@@ -60,8 +62,8 @@ if (isset($_SESSION['flash']['Errors validation'])) {
     <input type="password" class="form-control" id="password-confirm" name="password-confirm">
 
     <?php
-    if (isset($errors['password-confirm'])) {
-      echo $errors['password-confirm'];
+    if (isset($errors['Errors validation']['password-confirm'])) {
+      echo $errors['Errors validation']['password-confirm'];
     }
     ?>
 

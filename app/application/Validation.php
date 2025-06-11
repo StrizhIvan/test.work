@@ -25,9 +25,12 @@ class Validation {
     }
 
     public function password(string $fieldname, $value) {
-        $pattern = "/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/";
-        if(preg_match($pattern, $value)) {
-            $this->errors[$fieldname] = "Неверно составлен пароль";
+        //$pattern = "/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/";
+        $pattern = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/";
+        if(preg_match($pattern, $value) == 0) {
+            $this->errors[$fieldname] = "Неверно составлен пароль: мин. длина 8 символов, используйте латинские буквы разного регистра и хотя бы 1 цифру.";
+        } else {
+         $this->errors[$fieldname] = $value;
         }
     }
     

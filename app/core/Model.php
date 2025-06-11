@@ -56,7 +56,23 @@ abstract class Model
         $columns = implode(",", $columns);
         $stmt = $this->connection->prepare("INSERT INTO $table ($columns) VALUES ($data)");
         $stmt->execute();
-        //var_dump($stmt);
+    }
+
+    public function updateById(string $table, array $data, int $id)
+    {
+        //, array $data, array $columns
+        $setParts = [];
+        $params = [];
+
+        foreach ($data as $column => $value) {
+            $paramName = ':' . $column;
+            $setParts[] = "`$column` = $paramName";
+            $params[$paramName] = $value;
+        }
+
+        $strParts = implode(", ", $setParts);
+        $stmt = $this->connection->prepare("UPDATE $table SET $strParts WHERE id = $id");
+        $stmt->execute($params);
     }
 
 }

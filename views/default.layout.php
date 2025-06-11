@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <header>
+        <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid ">
                 <a class="navbar-brand" href="/">Navbar</a>
@@ -22,15 +22,24 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 float-sm-end">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/register">Register</a>
-                        </li>
+
+                        <?php if (!isset($_SESSION['user'])):?>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="/">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="/register">Register</a>
+                            </li>
+                        <?php else:?>
+                        
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="/profil">Profil</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/logout">Logout</a>
+                        </li>
+
+                        <?php endif;?>
                     </ul>
                 </div>
             </div>
@@ -38,7 +47,9 @@
     </header>
 
     <main>
-        <?= $content; ?>
+        <div class="container-fluid w-75">
+            <?= $content; ?>
+        </div>
     </main>
 </body>
 

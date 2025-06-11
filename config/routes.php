@@ -9,3 +9,5 @@ Route::get('/', [AutherisationController::class, 'show']);
 Route::get('/profil', [ProfilController::class, 'show'], true);
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/', [AutherisationController::class,'login']);
+Route::post('/profil', [ProfilController::class, 'edit'], true);
+Route::get('/logout', [ProfilController::class, 'logout'], true);

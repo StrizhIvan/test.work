@@ -12,7 +12,7 @@ class Registration extends Model{
         if($this->searchUser($this->fillable['email'], 'email') || $this->searchUser($this->fillable['tel'], 'tel')){
             return false;
         } else {
-            $password = password_hash($this->fillable['password'], PASSWORD_DEFAULT);
+            $password = $this->hashPassword($this->fillable['password']);
             $this->insert($this->table, [$this->fillable['name'], $this->fillable['email'], $this->fillable['tel'], $password], ['name', 'email', 'tel', 'password']);
             return true;
         }

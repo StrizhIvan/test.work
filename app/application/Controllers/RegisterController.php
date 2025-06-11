@@ -12,8 +12,8 @@ class RegisterController extends Controller
     private static $registration;
     private static $session;
     private static $validation;
-    public function __construct( Registration $registration,  Validation $validation,  Session $session)
-    {   
+    public function __construct(Registration $registration, Validation $validation, Session $session)
+    {
         self::$registration = $registration;
         self::$validation = $validation;
         self::$session = $session;
@@ -25,7 +25,7 @@ class RegisterController extends Controller
             self::redirect('profil');
             return;
         }
-        
+
         return [self::view('register'), self::$session->remove('flash')];
     }
 
@@ -42,14 +42,15 @@ class RegisterController extends Controller
         $errors = self::searchValidationErrors(self::$registration->fillable);
         if (!empty($errors)) {
             self::$session->setFlash('Errors validation', $errors);
-            return self::redirect('/');
+            return self::redirect();
         }
         $result = self::$registration->addUser();
         if ($result) {
-            self::$session->remove('Errors validation');
-            return self::view('success');
+            self::$session->setFlash('Register Success', 'Вы успешно зарегистрировались, теперь авторизуйтесь.');
+            return self::redirect('/');
         } else {
-            return self::view('baduser');
+            self::$session->setFlash('Register error', 'Такой пользователь уже есть!');
+            return self::redirect();
         }
 
     }
@@ -72,6 +73,11 @@ class RegisterController extends Controller
         self::$validation->phoneNumber($field, $value);
     }
 
+    private static function validatePassword(string $field, $value)
+    {
+        self::$validation->password($field, $value);
+    }
+
     private static function passwordConfirm(string $field, $password, $passwordConform)
     {
         self::$validation->passwordConfirm($field, $password, $passwordConform);
@@ -82,12 +88,9 @@ class RegisterController extends Controller
         self::hasRequired($fillable);
         self::validateEmail('email', $fillable['email']);
         self::validatePhoneNumber('tel', $fillable['tel']);
+        self::validatePassword('password', $fillable['password']);
         self::passwordConfirm('password-confirm', $fillable['password'], $fillable['passwordConfirm']);
         return self::$validation->errors();
     }
-
-    //public static function searchUser(){
-    //    var_dump(self::$registration->searchUser()) ;
-    //}
 
 }

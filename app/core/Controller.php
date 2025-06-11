@@ -11,9 +11,15 @@ abstract class Controller
         return $view->render($pageName, $data, $layoutName);
     }
 
-    protected static function redirect(string $path)
+    protected static function redirect(string $path = null)
     {
-        header('Location:' . $path);
-        
+        if (isset($path)) {
+            header('Location: ' . $path);
+            exit;
+        } else {
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
     }
 }

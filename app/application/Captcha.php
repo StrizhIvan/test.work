@@ -8,7 +8,7 @@ class Captcha
     //private string $clientKey;
     public function __construct()
     {
-        //$this->serverKey = 'ysc2_IW6ysGiWpYnpcnrGCNs48ewd9NeW2JMCiq7cCkbo8755f299';
+        $this->serverKey = 'ysc2_IW6ysGiWpYnpcnrGCNs48ewd9NeW2JMCiq7cCkbo8755f299';
         //$this->clientKey = 'ysc1_IW6ysGiWpYnpcnrGCNs4qR4ZPV7D1F1gMfkr96Z327b70b18';
     }
 

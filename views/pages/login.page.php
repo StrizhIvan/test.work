@@ -1,24 +1,30 @@
 <?php
 if (isset($_SESSION['flash'])) {
-    $errors = $_SESSION['flash'];
+    $flash = $_SESSION['flash'];
 }
 
 ?>
 
 <h1>Login page</h1>
 
+<?php
+    if (isset($flash['Register Succes'])) {
+        echo $flash['Register Succes'];
+    }
+    ?>
+
 <form id="form" action="" method="post">
     <?php
-    if (isset($errors['Login error'])) {
-        echo $errors['Login error'];
+    if (isset($flash['Login error'])) {
+        echo $flash['Login error'];
     }
     ?>
     <div class="mb-3">
         <label for="name" class="form-label">Login</label>
         <input type="text" class="form-control" id="name" name="login">
         <?php
-        if (isset($errors['Empty fields']['login'])) {
-            echo $errors['Empty fields']['login'];
+        if (isset($flash['Empty fields']['login'])) {
+            echo $flash['Empty fields']['login'];
         }
         ?>
     </div>
@@ -26,14 +32,14 @@ if (isset($_SESSION['flash'])) {
         <label for="password" class="form-label">Password</label>
         <input type="password" class="form-control" id="password" name="password">
         <?php
-        if (isset($errors['Empty fields']['password'])) {
-            echo $errors['Empty fields']['password'];
+        if (isset($flash['Empty fields']['password'])) {
+            echo $flash['Empty fields']['password'];
         }
         ?>
     </div>
     <?php
-    if (isset($errors['Captcha error'])) {
-        echo $errors['Captcha error'];
+    if (isset($flash['Captcha error'])) {
+        echo $flash['Captcha error'];
     }
     ?>
     <div id="captcha-container" class="smart-captcha"

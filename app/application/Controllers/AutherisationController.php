@@ -53,7 +53,7 @@ class AutherisationController extends Controller
         $captchaResult = self::$captcha->checkCaptcha($token);
         if (!$captchaResult) {
             self::$session->setFlash('Captcha error', 'Заполните капчу');
-            self::redirect('/');
+            self::redirect();
             die;
         }
         
@@ -61,14 +61,13 @@ class AutherisationController extends Controller
         
         if (self::$login->loginUser()) {
             self::$session->set('user', self::$login->loginUser());
-            return self::view('successlogin');
+            self::redirect('/profil');
         } else {
             self::$session->setFlash('Login error', 'Неверный логин или пароль');
-            self::redirect('/');
+            self::redirect();
             die;
         }
         
-        //var_dump($_SESSION['flash']);
     }
 
     private static function hasRequired(array $fields)
